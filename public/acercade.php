@@ -12,34 +12,7 @@
 </head>
 
 <body>
-    <!-- Cabecero de la página -->
-    <header>
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-            <div class="container">
-                <a class="navbar-brand" href="./index.html">Ama Lo Increíble</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav">
-                        <li class="nav-item">
-                            <a class="nav-link" href="./index.html">Inicio</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="./acercade.html">Acerca de</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="./servicios.html">Servicios</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="./contacto.html">Contacto</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-    </header>
+    <?php include 'header.php'; ?>
 
     <br>
 
@@ -106,31 +79,47 @@
         </div>
     </div>
 
-    <!-- Footer -->
-    <footer class="footer bg-dark text-light">
-        <div class="container">
-            <div class="row">
-                <div class="col-12 text-center">
-                    <h5>Ama Lo Increíble</h5>
-                    <p>Síguenos en nuestras redes sociales:</p>
-                    <div class="social-links">
-                        <a href="https://www.facebook.com/profile.php?id=100093975152678" target="_blank"
-                            rel="noopener noreferrer" class="social-link">
-                            <img src="../img/Facebook_f_logo__2019.png" alt="Facebook">
-                        </a>
-                        <a href="https://www.instagram.com/amaloincreible/" target="_blank" rel="noopener noreferrer"
-                            class="social-link">
-                            <img src="../img/Instagram-Logo.png" alt="Instagram">
-                        </a>
-                        <a href="https://wa.me/51902684086?text=%C2%A1Hola!%20Quiero%20tener%20m%C3%A1s%20informaci%C3%B3n%20acerca%20de%20su%20producto"
-                            target="_blank" rel="noopener noreferrer" class="social-link">
-                            <img src="../img/WhatsApp-logo.png" alt="Whatsapp">
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </footer>
+    <!-- Pruebas de PHP -->
+    <?php
+    require_once '../config/config.php';
+
+    $conexion = mysqli_connect($host, $username, $password, $database);
+
+    // Verificar la conexión
+    if (!$conexion) {
+        die("Error de conexión: " . mysqli_connect_error());
+    }
+
+    // Consulta SELECT
+    $sql = "SELECT * FROM ropa";
+    $resultado = mysqli_query($conexion, $sql);
+
+    // Mostrar los datos en una tabla HTML
+    if ($resultado && mysqli_num_rows($resultado) > 0) {
+        echo '<table class="table table-striped">';
+        echo '<tr><th>Cantidad</th><th>Precio</th><th>Tipo</th><th>Color</th><th>Descripción</th><th>Género</th></tr>';
+
+        while ($fila = mysqli_fetch_assoc($resultado)) {
+            echo "<tr>";
+            echo "<td>" . $fila["cantidad"] . "</td>";
+            echo "<td>" . $fila["precio"] . "</td>";
+            echo "<td>" . $fila["tipo"] . "</td>";
+            echo "<td>" . $fila["color"] . "</td>";
+            echo "<td>" . $fila["descripcion"] . "</td>";
+            echo "<td>" . $fila["genero"] . "</td>";
+            echo "</tr>";
+        }
+
+        echo "</table>";
+    } else {
+        echo "No se encontraron resultados.";
+    }
+
+    // Cerrar la conexión
+    mysqli_close($conexion);
+    ?>
+    
+    <?php include 'footer.php'; ?>
 
     <!-- Scrip del Bootstrap -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
