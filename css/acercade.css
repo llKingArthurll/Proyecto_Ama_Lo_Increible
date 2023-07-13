@@ -2,6 +2,11 @@
   width: 210px;
 }
 
+.custom-font {
+  font-family: "Arial", sans-serif;
+  /* Cambia "Arial" por la fuente que desees */
+}
+
 /* Cards */
 .card-container {
   display: flex;
